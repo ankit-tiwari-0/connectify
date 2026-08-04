@@ -15,7 +15,11 @@ export const signup = (req , res)=>{
         const salt = await bcrypt.genSalt(10)
         const hashpassword = await bcrypt.hash(password,salt);
 
-       
+        const newUser = new User({
+            fullName,
+            email,
+            password: hashpassword
+        })
     } catch (error) {
         
     }
