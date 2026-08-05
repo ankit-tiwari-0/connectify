@@ -15,3 +15,6 @@ export const generateToken = (userId, res) =>{
 
   return tokenss;
 }
+
+
+export const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
