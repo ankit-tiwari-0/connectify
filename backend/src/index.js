@@ -1,5 +1,6 @@
 import express from "express"
 import authrouter from "./routes/auth.route.js";
+import messagerouter from "./routes/message.route.js";
 import dotenv from "dotenv"
 import { connectDB } from "./lib/db.js";
 import cookie from "cookie-parser"
@@ -14,6 +15,7 @@ app.use(express.json())
 app.use(cookie())
 
 app.use("/api/auth", authrouter)
+app.use("/api/message", messagerouter)
 
 
 app.listen(3000, () =>{
