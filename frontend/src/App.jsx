@@ -1,6 +1,10 @@
 import React from 'react'
 import Navbar from './components/Navbar'
 import { Routes, Route } from 'react-router-dom'
+import SignupPage from './pages/SignupPage'
+import LoginPage from './pages/LoginPage'
+import SettingPage from './pages/SettingPage'
+import ProfilePage from './pages/ProfilePage'
 
 const App = () => {
   return (
