@@ -1,6 +1,9 @@
 import { Router } from "express";
+import { protectRoute } from "../middleware/auth.middleware";
 
 
 const router = Router();
 
-export default router
+router.get("/users", protectRoute, getUsersForSidebar)
+
+export default router   
