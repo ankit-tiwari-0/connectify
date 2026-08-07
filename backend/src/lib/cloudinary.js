@@ -1,15 +1,12 @@
-import { v2 as cloudinary } from "cloudinary";
-import { config } from "dotenv";
+import ImageKit from "imagekit";
+import dotenv from "dotenv";
 
-// Load environment variables
-config();
+dotenv.config();
 
-// Configure Cloudinary
-cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.API_Key,
-  api_secret: process.env.API_Secret,
+const imagekit = new ImageKit({
+  publicKey: process.env.IMAGEKIT_PUBLIC_KEY,
+  privateKey: process.env.IMAGEKIT_PRIVATE_KEY,
+  urlEndpoint: process.env.IMAGEKIT_URL_ENDPOINT,
 });
 
-// Export configured instance
-export default cloudinary;
+export default imagekit;

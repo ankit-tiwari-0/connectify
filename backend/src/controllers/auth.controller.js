@@ -1,4 +1,4 @@
-import cloudinary from "../lib/cloudinary.js";
+import imagekit from "../lib/cloudinary.js";
 import { emailRegex, generateToken } from "../lib/utils.js";
 import User from "../models/user.model.js";
 import bcrypt from "bcryptjs"
@@ -95,25 +95,33 @@ export const updateProfile = async (req, res) => {
     const userId = req.user._id;
 
     if (!profilePic) {
-      return res.status(400).json({ message: "Profile pic is required" });
+      return res.status(400).json({
+        message: "Profile picture is required",
+      });
     }
 
-    const uploadResponse = await cloudinary.uploader.upload(profilePic);
+    const uploadResponse = await imagekit.upload({
+      file: profilePic,
+      fileName: `profile-${Date.now()}.jpg`,
+      folder: "/connectify",
+    });
 
     const updatedUser = await User.findByIdAndUpdate(
-      userId,
-      {
-        profilePic: uploadResponse.secure_url,
-      },
-      {
-        new: true,
-      }
-    );
+  userId,
+  {
+    profilePic: uploadResponse.url,
+  },
+  {
+    returnDocument: "after",
+  }
+);
 
     res.status(200).json(updatedUser);
   } catch (error) {
-    console.log("Error in update profile:", error);
-    res.status(500).json({ message: "Internal server error" });
+    console.log("ImageKit Error:", error);
+    res.status(500).json({
+      message: error.message,
+    });
   }
 };
 
