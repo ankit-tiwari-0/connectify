@@ -1,4 +1,4 @@
-import cloudinary from "../lib/cloudinary.js";
+import imagekit from "../lib/cloudinary.js";
 import Message from "../models/message.model.js";
 import Users from "../models/user.model.js";
 
@@ -35,7 +35,8 @@ export const getMessages = async (req, res) => {
     console.log("Error in getMessages controller:", error.message);
     res.status(500).json({ error: "Internal server error" });
   }
-};export const sendMessage = async (req, res) => {
+};
+export const sendMessage = async (req, res) => {
   try {
     const { text, image } = req.body;
     const { id: receiverId } = req.params;
@@ -44,9 +45,13 @@ export const getMessages = async (req, res) => {
     let imageUrl;
 
     if (image) {
-      // Upload base64 image to Cloudinary
-      const uploadResponse = await cloudinary.uploader.upload(image);
-      imageUrl = uploadResponse.secure_url;
+      const uploadResponse = await imagekit.upload({
+        file: image,
+        fileName: `message-${Date.now()}.jpg`,
+        folder: "/connectify/messages",
+      });
+
+      imageUrl = uploadResponse.url;
     }
 
     const newMessage = new Message({
@@ -58,13 +63,11 @@ export const getMessages = async (req, res) => {
 
     await newMessage.save();
 
-    // TODO: Real-time functionality goes here => Socket.io
+    // TODO: Socket.IO
 
     res.status(201).json(newMessage);
   } catch (error) {
-    console.log("Error in sendMessage controller:", error.message);
+    console.log("Error in sendMessage controller:", error);
     res.status(500).json({ error: "Internal server error" });
   }
 };
-
-
