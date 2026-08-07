@@ -23,7 +23,7 @@ app.use(cors({
 }))
 
 app.use("/api/auth", authrouter)
-app.use("/api/message", messagerouter)
+app.use("/api/messages", messagerouter)
 
 
 app.listen(3000, () =>{
