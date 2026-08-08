@@ -22,6 +22,12 @@ const messageSchema = new mongoose.Schema(
     {timestamps: true}
 );
 
+// Delete message approximately 2 days after createdAt
+messageSchema.index(
+  { createdAt: 1 },
+  { expireAfterSeconds: 2 * 24 * 60 * 60 }
+);
+
 const Message = mongoose.model("message", messageSchema);
 
 export default Message;
